@@ -48,7 +48,7 @@ public class AreaEllipse implements Area {
 
 	@Override
 	public String debugString() {
-		return "AreaEllipse: h=" + x + ", k=" + z + ", rx=" + rx + ", ry=" + rz;
+		return "AreaEllipse: x=" + x + ", z=" + z + ", rx=" + rx + ", ry=" + rz;
 	}
 
 	@Override
@@ -60,6 +60,6 @@ public class AreaEllipse implements Area {
 		int ox = tileOffset.getX() + sx/2;
 		int oz = tileOffset.getY() + sz/2;
 		Shape shape = Shape.createEllipse(ox+ x *sx, oz+ z *sz, (rx+0.5)*sx, (rz +0.5)*sz, 24);
-		return new ShapeMarker(debugString() + this, shape, 90);
+		return new ShapeMarker(debugString(), shape, 90);
 	}
 }

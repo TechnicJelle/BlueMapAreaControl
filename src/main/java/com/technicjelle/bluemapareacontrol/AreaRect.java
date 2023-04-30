@@ -60,6 +60,6 @@ public class AreaRect implements Area {
 		int ox = tileOffset.getX();
 		int oz = tileOffset.getY();
 		Shape shape = Shape.createRect(ox+x*sx, oz+z*sz, ox+(x + width)*sx, oz+(z + height)*sz);
-		return new ShapeMarker(debugString() + this, shape, 90);
+		return new ShapeMarker(debugString(), shape, 90);
 	}
 }

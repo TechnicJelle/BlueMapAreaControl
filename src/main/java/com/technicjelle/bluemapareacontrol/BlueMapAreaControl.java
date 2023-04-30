@@ -7,11 +7,8 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
-import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,10 +90,8 @@ public final class BlueMapAreaControl extends JavaPlugin {
 			if (root == null) continue;
 
 			debugMode = root.node(NODE_DEBUG).getBoolean(false);
-			getLogger().info("Debug mode: " + debugMode);
 
-			isWhitelist = root.node(NODE_IS_WHITELIST).getBoolean(true);
-			getLogger().info("Is whitelist: " + isWhitelist);
+			isWhitelist = root.node(NODE_IS_WHITELIST).getBoolean(false);
 
 			try {
 				ConfigurationNode areasNode = root.node(NODE_AREAS);
@@ -111,16 +106,20 @@ public final class BlueMapAreaControl extends JavaPlugin {
 				continue;
 			}
 
-			if(debugMode) {
-				MarkerSet markerSet = map.getMarkerSets().computeIfAbsent("BlueMapAreaControl" + map.getId(), id -> MarkerSet.builder()
-						.label("BlueMapAreaControl")
+			if (debugMode) {
+				getLogger().info("\tDebug Mode: " + debugMode);
+				getLogger().info("\tIs Whitelist: " + isWhitelist);
+
+				String key = "Area Control Debug Overlay";
+				MarkerSet markerSet = map.getMarkerSets().computeIfAbsent(key, id -> MarkerSet.builder()
+						.label(key)
 						.toggleable(true)
 						.defaultHidden(true)
 						.build());
 
 				for (Area area : areas) {
 					getLogger().info('\t' + area.debugString());
-					markerSet.put(area.debugString(), area.createMarker(map));
+					markerSet.put(area.debugString() + area, area.createMarker(map));
 				}
 			}
 
