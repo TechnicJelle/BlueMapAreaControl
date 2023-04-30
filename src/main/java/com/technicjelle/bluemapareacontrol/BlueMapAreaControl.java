@@ -3,6 +3,7 @@ package com.technicjelle.bluemapareacontrol;
 import de.bluecolored.bluemap.api.BlueMapAPI;
 import de.bluecolored.bluemap.api.BlueMapMap;
 import de.bluecolored.bluemap.api.markers.MarkerSet;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
@@ -30,6 +31,8 @@ public final class BlueMapAreaControl extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		new Metrics(this, 18345);
+
 		BlueMapAPI.onEnable(onEnableListener);
 		BlueMapAPI.onDisable(onDisableListener);
 	}
