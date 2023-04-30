@@ -13,9 +13,12 @@ import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -42,41 +45,9 @@ public final class BlueMapAreaControl extends JavaPlugin {
 				getLogger().info("Creating config for map: " + map.getId());
 
 				Path mapConfigPath = getDataFolder().toPath().resolve(map.getId() + CONF_EXT);
-				HoconConfigurationLoader loader = HoconConfigurationLoader.builder().path(mapConfigPath).build();
-
-				CommentedConfigurationNode root = null;
 				try {
-					root = loader.load(ConfigurationOptions.defaults().header("Example config file: https://github.com/TechnicJelle/BlueMapAreaControl/blob/main/example.conf"));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				if (root == null) continue;
-
-				// Map settings
-				try {
-					ConfigurationNode debugNode = root.node(NODE_DEBUG);
-					debugNode.set(false);
-
-					ConfigurationNode isWhitelist = root.node(NODE_IS_WHITELIST);
-					isWhitelist.set(true);
-				} catch (SerializationException e) {
-					e.printStackTrace();
-				}
-
-				ConfigurationNode areasNode = root.node(NODE_AREAS);
-
-				try {
-					ConfigurationNode area = areasNode.appendListNode();
-					area.set(new AreaRect(-1, -1, 2, 2));
-				} catch (SerializationException e) {
-					e.printStackTrace();
-					continue;
-				}
-
-				try {
-					loader.save(root); //saves the node tree to the file
-				} catch (ConfigurateException e) {
+					Files.copy(Objects.requireNonNull(getResource("default.conf")), mapConfigPath);
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
