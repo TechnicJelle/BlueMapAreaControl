@@ -30,12 +30,15 @@ public final class BlueMapAreaControl extends JavaPlugin {
 	public void onEnable() {
 		new Metrics(this, 18345);
 
+		UpdateChecker.check("TechnicJelle", "BlueMapAreaControl", getDescription().getVersion());
+
 		BlueMapAPI.onEnable(onEnableListener);
 		BlueMapAPI.onDisable(onDisableListener);
 	}
 
 	Consumer<BlueMapAPI> onEnableListener = api -> {
 		getLogger().info("BlueMapAreaControl enabled!");
+		UpdateChecker.logUpdateMessage(getLogger());
 
 		// First time? Create configs
 		if (getDataFolder().mkdirs()) {
