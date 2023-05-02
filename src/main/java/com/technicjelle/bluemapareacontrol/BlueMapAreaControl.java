@@ -102,6 +102,7 @@ public final class BlueMapAreaControl extends JavaPlugin {
 				List<? extends ConfigurationNode> children = areasNode.childrenList();
 				for (ConfigurationNode child : children) {
 					Area area = getArea(child);
+					area.calculateTilePositions(map);
 					areas.add(area);
 				}
 			} catch (Exception e) {
@@ -122,9 +123,11 @@ public final class BlueMapAreaControl extends JavaPlugin {
 
 				for (Area area : areas) {
 					getLogger().info('\t' + area.debugString());
-					markerSet.put(area.debugString() + area, area.createMarker(map));
+					markerSet.put(area.debugString() + "tile" + area, area.createTileMarker(map));
+//					markerSet.put(area.debugString() + "block" + area, area.createBlockMarker(map));
 				}
 			}
+
 
 			map.setTileFilter(tilePos -> {
 				boolean inArea = false;

@@ -34,48 +34,50 @@ areas=[
 ```
 `is-whitelist` is a boolean that defines whether the areas list is a whitelist or a blacklist.\
 When it's a whitelist, only the areas in the list will be rendered.\
-When it's a blacklist, all areas will be rendered except the ones in the list.
+When it's a blacklist, all areas will be rendered _except_ the ones in the list.
 
 `debug-mode` is a boolean that defines whether the debug mode is enabled.\
 When it's enabled, all areas will be marked on the map with a red border.\
 This makes it easier to visualise the areas you're defining, before you (re)render the map.
 
-All areas should be within the `areas` square brackets `[ ]`
+All areas should be denoted within the `areas` square brackets `[ ]`
 
-**Please be aware that the numbers in the configs are in *BlueMap tiles, not blocks!***\
-There are currently two types of areas: Rectangle and Ellipse, which you configure like this:
+The numbers in the configs are in blocks, but please be aware that BlueMap will round them down to the nearest tile.\
+You can see the resulting tiles if you enable debug mode.
 
-Rectangle:
+There are currently two types of area available that you can use:
+
+- Rectangle:
 ```hocon
 {
-	type=rect
-	# X coordinate of the top left corner in tiles
-	x=-1
-	# Z coordinate of the top left corner in tiles
-	z=-1
-	# Height of the rectangle in tiles
-	height=2
-	# Width of the rectangle in tiles
-	width=2
+	type = rect
+	# X coordinate of one corner of the rectangle in blocks
+	x1 = -30
+	# Z coordinate of one corner of the rectangle in blocks
+	z1 = -30
+	# X coordinate of the opposite corner of the rectangle in blocks
+	x2 = 33
+	# Z coordinate of the opposite corner of the rectangle in blocks
+	z2 = 33
 }
 ```
 
-Ellipse:
+- Ellipse:
 ```hocon
 {
-	type=ellipse
-	# Center X coordinate in tiles
-	x=0
-	# Center Z coordinate in tiles
-	z=3
-	# Radius X in tiles
-	rx=5
-	# Radius Z in tiles
-	rz=3
+	type = ellipse
+	# Center X coordinate in blocks
+	x = 18
+	# Center Z coordinate in blocks
+	z = 114
+	# Radius X in blocks
+	rx = 176
+	# Radius Z in blocks
+	rz = 112
 }
 ```
 
-**Full example can be found [here](https://github.com/TechnicJelle/BlueMapAreaControl/blob/main/example.conf)**
+**Full config example can be found [here](https://github.com/TechnicJelle/BlueMapAreaControl/blob/main/example.conf)**
 
 ## Support
 

@@ -6,9 +6,13 @@ import de.bluecolored.bluemap.api.markers.ShapeMarker;
 public interface Area {
 	boolean isValid();
 
-	boolean containsTile(int x, int z);
+	void calculateTilePositions(BlueMapMap map);
+
+	boolean containsTile(int tx, int tz);
 
 	String debugString();
 
-	ShapeMarker createMarker(BlueMapMap map);
+	ShapeMarker createBlockMarker(BlueMapMap map);
+
+	ShapeMarker createTileMarker(BlueMapMap map);
 }
