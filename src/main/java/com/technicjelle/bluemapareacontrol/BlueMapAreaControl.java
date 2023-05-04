@@ -1,16 +1,5 @@
 package com.technicjelle.bluemapareacontrol;
 
-import com.technicjelle.UpdateChecker;
-import de.bluecolored.bluemap.api.BlueMapAPI;
-import de.bluecolored.bluemap.api.BlueMapMap;
-import de.bluecolored.bluemap.api.markers.MarkerSet;
-import org.bstats.bukkit.Metrics;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +9,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+
+import org.bstats.bukkit.Metrics;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+
+import com.technicjelle.UpdateChecker;
+
+import de.bluecolored.bluemap.api.BlueMapAPI;
+import de.bluecolored.bluemap.api.BlueMapMap;
+import de.bluecolored.bluemap.api.markers.MarkerSet;
 
 public final class BlueMapAreaControl extends JavaPlugin {
 	private UpdateChecker updateChecker;
@@ -106,7 +108,7 @@ public final class BlueMapAreaControl extends JavaPlugin {
 				List<? extends ConfigurationNode> children = areasNode.childrenList();
 				for (ConfigurationNode child : children) {
 					Area area = getArea(child);
-					area.calculateTilePositions(map);
+					area.forMap(map);
 					areas.add(area);
 				}
 			} catch (Exception e) {
@@ -127,8 +129,7 @@ public final class BlueMapAreaControl extends JavaPlugin {
 
 				for (Area area : areas) {
 					getLogger().info('\t' + area.debugString());
-					markerSet.put(area.debugString() + "tile" + area, area.createTileMarker(map));
-//					markerSet.put(area.debugString() + "block" + area, area.createBlockMarker(map));
+					markerSet.put(area.debugString() + "block" + area, area.createBlockMarker(map));
 				}
 			}
 
