@@ -1,5 +1,6 @@
 package com.technicjelle.bluemapareacontrol;
 
+import com.technicjelle.UpdateChecker;
 import de.bluecolored.bluemap.api.BlueMapAPI;
 import de.bluecolored.bluemap.api.BlueMapMap;
 import de.bluecolored.bluemap.api.markers.MarkerSet;
@@ -21,6 +22,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public final class BlueMapAreaControl extends JavaPlugin {
+	private UpdateChecker updateChecker;
+
 	private static final String CONF_EXT = ".conf";
 	private static final String NODE_AREAS = "areas";
 	private static final String NODE_DEBUG = "debug-mode";
@@ -30,7 +33,8 @@ public final class BlueMapAreaControl extends JavaPlugin {
 	public void onEnable() {
 		new Metrics(this, 18345);
 
-		UpdateChecker.check("TechnicJelle", "BlueMapAreaControl", getDescription().getVersion());
+		updateChecker = new UpdateChecker("TechnicJelle", "BlueMapAreaControl", getDescription().getVersion());
+		updateChecker.checkAsync();
 
 		BlueMapAPI.onEnable(onEnableListener);
 		BlueMapAPI.onDisable(onDisableListener);
@@ -38,7 +42,7 @@ public final class BlueMapAreaControl extends JavaPlugin {
 
 	Consumer<BlueMapAPI> onEnableListener = api -> {
 		getLogger().info("BlueMapAreaControl enabled!");
-		UpdateChecker.logUpdateMessage(getLogger());
+		updateChecker.logUpdateMessage(getLogger());
 
 		// First time? Create configs
 		if (getDataFolder().mkdirs()) {
