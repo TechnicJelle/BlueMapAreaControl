@@ -24,20 +24,17 @@ public class AreaEllipse implements Area {
 	private final String type = TYPE;
 
 	private transient int tileSize;
+	private transient int halfTileSize;
 	private transient int tileOffset;
 
-	public AreaEllipse() {
-		this.x = null;
-		this.z = null;
-		this.rx = null;
-		this.rz = null;
-	}
+	private transient int prxSq;
+	private transient int przSq;
 
-	public AreaEllipse(int x, int z, int rx, int rz) {
-		this.x = x;
-		this.z = z;
-		this.rx = rx;
-		this.rz = rz;
+	public AreaEllipse() {
+		x = null;
+		z = null;
+		rx = null;
+		rz = null;
 	}
 
 	@Override
@@ -46,23 +43,26 @@ public class AreaEllipse implements Area {
 	}
 
 	@Override
-	public void forMap(BlueMapMap map) {
-		this.tileSize = map.getTileSize().getX();
-		this.tileOffset = map.getTileOffset().getX();
+	public void init(BlueMapMap map) {
+		tileSize = map.getTileSize().getX();
+		tileOffset = map.getTileOffset().getX();
+		halfTileSize = tileSize / 2;
+
+		//pad radius to make up for the check in the middle of tile
+		prxSq = (rx + halfTileSize) * (rx + halfTileSize);
+		przSq = (rz + halfTileSize) * (rz + halfTileSize);
 	}
 
 	@Override
-	public boolean containsTile(int tx, int tz) {
-		int x = tx * tileSize + tileOffset;
-		int z = tz * tileSize + tileOffset;
-		for (int dx = 0; dx <= 1; dx++) {
-			for (int dz = 0; dz <= 1; dz++) {
-				if (Math.pow(x + dx * tileSize - this.x, 2) / Math.pow(rx, 2) + Math.pow(z + dz * tileSize - this.z, 2) / Math.pow(rz, 2) <= 1) {
-					return true;
-				}
-			}
-		}
-		return false;
+	public boolean containsTile(int tx, int tz) { //tile
+		float bx = (tx * tileSize) + tileOffset; //block
+		float bz = (tz * tileSize) + tileOffset;
+
+		//check in middle of tile
+		float mtx = bx + halfTileSize - x;
+		float mtz = bz + halfTileSize - z;
+
+		return (mtx*mtx) / prxSq + (mtz*mtz) / przSq <= 1.0f;
 	}
 
 	@Override

@@ -108,7 +108,7 @@ public final class BlueMapAreaControl extends JavaPlugin {
 				List<? extends ConfigurationNode> children = areasNode.childrenList();
 				for (ConfigurationNode child : children) {
 					Area area = getArea(child);
-					area.forMap(map);
+					area.init(map);
 					areas.add(area);
 				}
 			} catch (Exception e) {
@@ -117,7 +117,7 @@ public final class BlueMapAreaControl extends JavaPlugin {
 			}
 
 			if (debugMode) {
-				getLogger().info("\tDebug Mode: " + debugMode);
+				getLogger().info("\tDebug Mode is enabled");
 				getLogger().info("\tIs Whitelist: " + isWhitelist);
 
 				String key = "Area Control Debug Overlay";
