@@ -71,7 +71,7 @@ public class AreaRect implements Area {
 
 	@Override
 	public String debugString() {
-		return "AreaRect tx1: " + tx1 + " tz1: " + tz1 + " tx2: " + tx2 + " tz2: " + tz2;
+		return "AreaRect: tx1= " + tx1 + ", tz1= " + tz1 + ", tx2= " + tx2 + ", tz2= " + tz2;
 	}
 
 	@Override
@@ -79,6 +79,11 @@ public class AreaRect implements Area {
 		Shape shape = Shape.createRect(x1, z1, x2+1, z2+1); //+1 because the shape is exclusive on the right and bottom side
 		return ShapeMarker.builder()
 				.label(debugString())
+				.detail("type = " + type + "<br>" +
+						"x1 = " + x1 + "<br>" +
+						"z1 = " + z1 + "<br>" +
+						"x2 = " + x2 + "<br>" +
+						"z2 = " + z2)
 				.shape(shape, 0)
 				.depthTestEnabled(false)
 				.lineColor(new Color(0, 0, 255, 1f))

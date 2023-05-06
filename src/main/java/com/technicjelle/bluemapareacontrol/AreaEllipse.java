@@ -67,7 +67,7 @@ public class AreaEllipse implements Area {
 
 	@Override
 	public String debugString() {
-		return "AreaEllipse: x=" + x + ", z=" + z + ", rx=" + rx + ", rz=" + rz;
+		return "AreaEllipse: x= " + x + ", z= " + z + ", rx= " + rx + ", rz= " + rz;
 	}
 
 	@Override
@@ -75,6 +75,11 @@ public class AreaEllipse implements Area {
 		Shape shape = Shape.createEllipse(x, z, rx, rz, 24);
 		return ShapeMarker.builder()
 				.label(debugString())
+				.detail("type = " + type + "<br>" +
+						"x = " + x + "<br>" +
+						"z = " + z + "<br>" +
+						"rx = " + rx + "<br>" +
+						"rz = " + rz)
 				.shape(shape, 0)
 				.depthTestEnabled(false)
 				.lineColor(new Color(0, 0, 255, 1f))
