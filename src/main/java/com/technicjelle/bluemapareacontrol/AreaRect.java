@@ -13,14 +13,14 @@ import de.bluecolored.bluemap.api.math.Shape;
 @ConfigSerializable
 public class AreaRect implements Area {
 	@Comment("X coordinate of one corner of the rectangle in blocks")
-	private final Integer x1;
+	private Integer x1;
 	@Comment("Z coordinate of one corner of the rectangle in blocks")
-	private final Integer z1;
+	private Integer z1;
 
 	@Comment("X coordinate of the opposite corner of the rectangle in blocks")
-	private final Integer x2;
+	private Integer x2;
 	@Comment("Z coordinate of the opposite corner of the rectangle in blocks")
-	private final Integer z2;
+	private Integer z2;
 
 	public static final String TYPE = "rect";
 	private final String type = TYPE;
@@ -31,27 +31,31 @@ public class AreaRect implements Area {
 	private transient int tz2; //tile bottom right
 
 	private AreaRect() {
-		this.x1 = null;
-		this.z1 = null;
-		this.x2 = null;
-		this.z2 = null;
-	}
-
-	public AreaRect(int x1, int z1, int x2, int z2) {
-		//make sure x1/z1 is the top left corner and x2/z2 is the bottom right corner
-		this.x1 = Math.min(x1, x2);
-		this.z1 = Math.min(z1, z2);
-		this.x2 = Math.max(x1, x2);
-		this.z2 = Math.max(z1, z2);
+		x1 = null;
+		z1 = null;
+		x2 = null;
+		z2 = null;
 	}
 
 	@Override
 	public boolean isValid() {
-		return x1 != null && z1 != null && x2 != null && z2 != null && x1 < x2 && z1 < z2;
+		return x1 != null && z1 != null && x2 != null && z2 != null;
 	}
 
 	@Override
-	public void forMap(BlueMapMap map) {
+	public void init(BlueMapMap map) {
+		//make sure x1/z1 is the top left corner and x2/z2 is the bottom right corner
+		int mx1 = Math.min(x1, x2);
+		int mz1 = Math.min(z1, z2);
+		int mx2 = Math.max(x1, x2);
+		int mz2 = Math.max(z1, z2);
+
+		//save sorted values
+		x1 = mx1;
+		z1 = mz1;
+		x2 = mx2;
+		z2 = mz2;
+
 		Vector2i pos1 = map.posToTile(x1, z1);
 		tx1 = pos1.getX();
 		tz1 = pos1.getY();
