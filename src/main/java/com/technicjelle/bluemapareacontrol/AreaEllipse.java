@@ -1,12 +1,12 @@
 package com.technicjelle.bluemapareacontrol;
 
-import com.flowpowered.math.vector.Vector2i;
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
+
 import de.bluecolored.bluemap.api.BlueMapMap;
 import de.bluecolored.bluemap.api.markers.ShapeMarker;
 import de.bluecolored.bluemap.api.math.Color;
 import de.bluecolored.bluemap.api.math.Shape;
-import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 @ConfigSerializable
 public class AreaEllipse implements Area {
@@ -23,10 +23,8 @@ public class AreaEllipse implements Area {
 	public static final String TYPE = "ellipse";
 	private final String type = TYPE;
 
-	private transient int tx;
-	private transient int tz;
-	private transient int trx;
-	private transient int trz;
+	private transient int tileSize;
+	private transient int tileOffset;
 
 	public AreaEllipse() {
 		this.x = null;
@@ -48,23 +46,28 @@ public class AreaEllipse implements Area {
 	}
 
 	@Override
-	public void calculateTilePositions(BlueMapMap map) {
-		Vector2i pos = map.posToTile(x, z);
-		tx = pos.getX();
-		tz = pos.getY();
-		Vector2i size = map.posToTile(rx, rz);
-		trx = size.getX();
-		trz = size.getY();
+	public void forMap(BlueMapMap map) {
+		this.tileSize = map.getTileSize().getX();
+		this.tileOffset = map.getTileOffset().getX();
 	}
 
 	@Override
 	public boolean containsTile(int tx, int tz) {
-		return Math.pow(tx - this.tx, 2) / Math.pow(trx, 2) + Math.pow(tz - this.tz, 2) / Math.pow(trz, 2) <= 1;
+		int x = tx * tileSize + tileOffset;
+		int z = tz * tileSize + tileOffset;
+		for (int dx = 0; dx <= 1; dx++) {
+			for (int dz = 0; dz <= 1; dz++) {
+				if (Math.pow(x + dx * tileSize - this.x, 2) / Math.pow(rx, 2) + Math.pow(z + dz * tileSize - this.z, 2) / Math.pow(rz, 2) <= 1) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public String debugString() {
-		return "AreaEllipse: tx=" + tx + ", tz=" + tz + ", trx=" + trx + ", trz=" + trz;
+		return "AreaEllipse: x=" + x + ", z=" + z + ", rx=" + rx + ", rz=" + rz;
 	}
 
 	@Override
@@ -76,22 +79,6 @@ public class AreaEllipse implements Area {
 				.depthTestEnabled(false)
 				.lineColor(new Color(0, 0, 255, 1f))
 				.fillColor(new Color(0, 0, 200, 0.3f))
-				.build();
-	}
-
-	@Override
-	public ShapeMarker createTileMarker(BlueMapMap map) {
-		Vector2i tileSize = map.getTileSize();
-		int sx = tileSize.getX();
-		int sz = tileSize.getY();
-		Vector2i tileOffset = map.getTileOffset();
-		int ox = tileOffset.getX() + sx/2;
-		int oz = tileOffset.getY() + sz/2;
-		Shape shape = Shape.createEllipse(ox+tx*sx, oz+tz*sz, (trx+0.5)*sx, (trz+0.5)*sz, 24);
-		return ShapeMarker.builder()
-				.label(debugString())
-				.shape(shape, 1)
-				.depthTestEnabled(false)
 				.build();
 	}
 }

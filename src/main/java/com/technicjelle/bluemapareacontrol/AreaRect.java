@@ -1,12 +1,14 @@
 package com.technicjelle.bluemapareacontrol;
 
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
+
 import com.flowpowered.math.vector.Vector2i;
+
 import de.bluecolored.bluemap.api.BlueMapMap;
 import de.bluecolored.bluemap.api.markers.ShapeMarker;
 import de.bluecolored.bluemap.api.math.Color;
 import de.bluecolored.bluemap.api.math.Shape;
-import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 @ConfigSerializable
 public class AreaRect implements Area {
@@ -49,13 +51,13 @@ public class AreaRect implements Area {
 	}
 
 	@Override
-	public void calculateTilePositions(BlueMapMap map) {
-		Vector2i pos = map.posToTile(x1, z1);
-		tx1 = pos.getX();
-		tz1 = pos.getY();
-		Vector2i size = map.posToTile(x2, z2);
-		tx2 = size.getX();
-		tz2 = size.getY();
+	public void forMap(BlueMapMap map) {
+		Vector2i pos1 = map.posToTile(x1, z1);
+		tx1 = pos1.getX();
+		tz1 = pos1.getY();
+		Vector2i pos2 = map.posToTile(x2, z2);
+		tx2 = pos2.getX();
+		tz2 = pos2.getY();
 	}
 
 	@Override
@@ -77,24 +79,6 @@ public class AreaRect implements Area {
 				.depthTestEnabled(false)
 				.lineColor(new Color(0, 0, 255, 1f))
 				.fillColor(new Color(0, 0, 200, 0.3f))
-				.build();
-	}
-
-	@Override
-	public ShapeMarker createTileMarker(BlueMapMap map) {
-		Vector2i tileSize = map.getTileSize();
-		int sx = tileSize.getX();
-		int sz = tileSize.getY();
-		Vector2i tileOffset = map.getTileOffset();
-		int ox = tileOffset.getX();
-		int oz = tileOffset.getY();
-		Shape shape = Shape.createRect(ox+tx1*sx, oz+tz1*sz, ox+(tx2+1)*sx, oz+(tz2+1)*sz);
-		return ShapeMarker.builder()
-				.label(debugString())
-				.shape(shape, 1)
-				.depthTestEnabled(false)
-				.lineColor(new Color(255, 0, 0, 1f))
-				.fillColor(new Color(200, 0, 0, 0.3f))
 				.build();
 	}
 }
