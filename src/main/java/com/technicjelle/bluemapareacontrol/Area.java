@@ -15,5 +15,5 @@ public interface Area {
 
 	String debugString();
 
-	ShapeMarker createBlockMarker(BlueMapMap map);
+	ShapeMarker createBlockMarker();
 }

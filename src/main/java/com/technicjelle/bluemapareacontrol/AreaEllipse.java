@@ -71,7 +71,7 @@ public class AreaEllipse implements Area {
 	}
 
 	@Override
-	public ShapeMarker createBlockMarker(BlueMapMap map) {
+	public ShapeMarker createBlockMarker() {
 		Shape shape = Shape.createEllipse(x, z, rx, rz, 24);
 		return ShapeMarker.builder()
 				.label(debugString())

@@ -75,7 +75,7 @@ public class AreaRect implements Area {
 	}
 
 	@Override
-	public ShapeMarker createBlockMarker(BlueMapMap map) {
+	public ShapeMarker createBlockMarker() {
 		Shape shape = Shape.createRect(x1, z1, x2+1, z2+1); //+1 because the shape is exclusive on the right and bottom side
 		return ShapeMarker.builder()
 				.label(debugString())

@@ -133,7 +133,7 @@ public final class BlueMapAreaControl extends JavaPlugin {
 
 				for (Area area : areas) {
 					getLogger().info('\t' + area.debugString());
-					markerSet.put(area.debugString() + "block" + area, area.createBlockMarker(map));
+					markerSet.put(area.debugString() + "block" + area, area.createBlockMarker());
 				}
 			}
 
