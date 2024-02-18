@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -58,7 +59,7 @@ public final class BlueMapAreaControl extends JavaPlugin {
 				try {
 					Files.copy(Objects.requireNonNull(getResource("default.conf")), mapConfigPath);
 				} catch (IOException e) {
-					e.printStackTrace();
+					getLogger().log(Level.SEVERE, "Failed to copy default config for map " + map.getId(), e);
 				}
 			}
 		}
@@ -88,17 +89,19 @@ public final class BlueMapAreaControl extends JavaPlugin {
 
 			HoconConfigurationLoader loader = HoconConfigurationLoader.builder().path(file.toPath()).build();
 
-			CommentedConfigurationNode root = null;
+			CommentedConfigurationNode root;
 			final boolean debugMode;
 			final boolean isWhitelist;
 			try {
 				root = loader.load();
 			} catch (Exception e) {
-				e.printStackTrace();
+				getLogger().log(Level.SEVERE, "Failed to load config for map " + map.getId(), e);
+				continue;
 			}
-
-			if (root == null) continue;
-
+			if (root == null) {
+				getLogger().warning("Failed to load config root for map " + map.getId());
+				continue;
+			}
 			debugMode = root.node(NODE_DEBUG).getBoolean(false);
 
 			isWhitelist = root.node(NODE_IS_WHITELIST).getBoolean(false);
@@ -113,7 +116,7 @@ public final class BlueMapAreaControl extends JavaPlugin {
 					areas.add(area);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				getLogger().log(Level.SEVERE, "Failed to load areas for map " + map.getId(), e);
 				continue;
 			}
 
