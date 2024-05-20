@@ -33,14 +33,17 @@ public final class BlueMapAreaControl extends JavaPlugin {
 	private static final String NODE_IS_WHITELIST = "is-whitelist";
 
 	@Override
+	public void onLoad() {
+		BlueMapAPI.onEnable(onEnableListener);
+		BlueMapAPI.onDisable(onDisableListener);
+	}
+
+	@Override
 	public void onEnable() {
 		new Metrics(this, 18345);
 
 		updateChecker = new UpdateChecker("TechnicJelle", "BlueMapAreaControl", getDescription().getVersion());
 		updateChecker.checkAsync();
-
-		BlueMapAPI.onEnable(onEnableListener);
-		BlueMapAPI.onDisable(onDisableListener);
 	}
 
 	Consumer<BlueMapAPI> onEnableListener = api -> {
