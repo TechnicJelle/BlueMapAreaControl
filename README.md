@@ -10,7 +10,8 @@ A Minecraft Paper BlueMap addon for greater control over which areas get rendere
 Compatible with Paper 1.13+, just like BlueMap itself.
 
 To reload this plugin, just reload BlueMap itself with `/bluemap reload`.\
-You will probably need to rerender your world if you change this plugin's configs.
+You will probably need to rerender your map(s) if you change this plugin's configs.\
+You can do that with the command `/bluemap purge <map-id>`
 
 
 ## [Click here to download!](../../releases/latest)
