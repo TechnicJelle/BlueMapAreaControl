@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class  BlueMapAreaControl implements Runnable {
+public final class BlueMapAreaControl implements Runnable {
 
 	private static final String ADDON_ID, VERSION;
 	static {
