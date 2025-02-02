@@ -3,11 +3,11 @@
 [![GitHub Total Downloads](https://img.shields.io/github/downloads/TechnicJelle/BlueMapAreaControl/total?label=Downloads&color=success "Click here to download the plugin")](https://github.com/TechnicJelle/BlueMapAreaControl/releases/latest)
 [![Servers using this plugin](https://img.shields.io/bstats/servers/18345?label=Servers)](https://bstats.org/plugin/bukkit/BlueMap%20Area%20Control/18345)
 
-A Minecraft Paper BlueMap addon for greater control over which areas get rendered
+A BlueMap (native) addon for greater control over which areas get rendered
 
 ![a screenshot of bluemap with a couple holes in it. one hole is rectangular, one is an ellipse, and the third is a single chunk](.github/bmac.png)
 
-Compatible with Paper 1.13+, just like BlueMap itself.
+Compatible with BlueMap version 5.2 and higher.
 
 To reload this plugin, just reload BlueMap itself with `/bluemap reload`.\
 You will probably need to rerender your map(s) if you change this plugin's configs.\
@@ -15,11 +15,12 @@ You can do that with the command `/bluemap purge <map-id>`
 
 
 ## [Click here to download!](../../releases/latest)
+**Install this addon by adding the jar-file into bluemap's `packs` folder.**
 
 ## Configuration
 The configuration for this plugin uses [HOCON](https://github.com/lightbend/config/blob/main/HOCON.md) files.
 
-In the `plugins/BlueMapAreaControl` folder you should make a `.conf` file for each BlueMap map you want to control, with the map-id as the name.\
+In the `config/bluemapareacontrol` folder you should make a `.conf` file for each BlueMap map you want to control, with the map-id as the name.\
 When you install this plugin for the first time, it will generate a template config for each registered BlueMap map.
 
 This is the default config:
