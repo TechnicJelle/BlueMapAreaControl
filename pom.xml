@@ -13,7 +13,7 @@
 
 	<description>BlueMap addon for greater control over which areas get rendered</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<url>https://github.com/TechnicJelle/BlueMapAreaControl/</url>
@@ -23,7 +23,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>3.13.0</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -32,7 +32,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.4.1</version>
+				<version>3.6.0</version>
 				<configuration>
 					<relocations>
 						<relocation>
