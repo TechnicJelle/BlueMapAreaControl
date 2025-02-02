@@ -1,7 +1,17 @@
 package com.technicjelle.bluemapareacontrol;
 
-import java.io.File;
-import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.technicjelle.UpdateChecker;
+import de.bluecolored.bluemap.api.BlueMapAPI;
+import de.bluecolored.bluemap.api.BlueMapMap;
+import de.bluecolored.bluemap.api.markers.MarkerSet;
+import org.jetbrains.annotations.NotNull;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -10,21 +20,25 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.bstats.bukkit.Metrics;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+public final class BlueMapAreaControl implements Runnable {
 
-import com.technicjelle.UpdateChecker;
+	private static final String ADDON_ID, VERSION;
+	static {
+		Gson gson = new Gson();
+		try (
+				InputStream is = BlueMapAreaControl.class.getResourceAsStream("/bluemap.addon.json");
+				Reader reader = new InputStreamReader(Objects.requireNonNull(is))
+		) {
+			JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+			ADDON_ID = jsonObject.get("id").getAsString();
+			VERSION = jsonObject.get("version").getAsString();
+		} catch (Exception ex) {
+			throw new RuntimeException("Failed to load build-info.", ex);
+		}
+	}
 
-import de.bluecolored.bluemap.api.BlueMapAPI;
-import de.bluecolored.bluemap.api.BlueMapMap;
-import de.bluecolored.bluemap.api.markers.MarkerSet;
-
-public final class BlueMapAreaControl extends JavaPlugin {
 	private UpdateChecker updateChecker;
 
 	private static final String CONF_EXT = ".conf";
@@ -33,16 +47,11 @@ public final class BlueMapAreaControl extends JavaPlugin {
 	private static final String NODE_IS_WHITELIST = "is-whitelist";
 
 	@Override
-	public void onLoad() {
+	public void run() {
 		BlueMapAPI.onEnable(onEnableListener);
 		BlueMapAPI.onDisable(onDisableListener);
-	}
 
-	@Override
-	public void onEnable() {
-		new Metrics(this, 18345);
-
-		updateChecker = new UpdateChecker("TechnicJelle", "BlueMapAreaControl", getDescription().getVersion());
+		updateChecker = new UpdateChecker("TechnicJelle", "BlueMapAreaControl", VERSION);
 		updateChecker.checkAsync();
 	}
 
@@ -59,8 +68,8 @@ public final class BlueMapAreaControl extends JavaPlugin {
 				getLogger().info("Creating config for map: " + map.getId());
 
 				Path mapConfigPath = getDataFolder().toPath().resolve(map.getId() + CONF_EXT);
-				try {
-					Files.copy(Objects.requireNonNull(getResource("default.conf")), mapConfigPath);
+				try (InputStream defaultConfig = BlueMapAreaControl.class.getResourceAsStream("/default.conf")) {
+					Files.copy(Objects.requireNonNull(defaultConfig), mapConfigPath);
 				} catch (IOException e) {
 					getLogger().log(Level.SEVERE, "Failed to copy default config for map " + map.getId(), e);
 				}
@@ -177,9 +186,12 @@ public final class BlueMapAreaControl extends JavaPlugin {
 	Consumer<BlueMapAPI> onDisableListener = api ->
 			getLogger().info("BlueMapAreaControl disabled!");
 
-	@Override
-	public void onDisable() {
-		BlueMapAPI.unregisterListener(onEnableListener);
-		BlueMapAPI.unregisterListener(onDisableListener);
+	public Logger getLogger() {
+		return Logger.getLogger(ADDON_ID);
 	}
+
+	public File getDataFolder() {
+		return Path.of("config", ADDON_ID).toFile();
+	}
+
 }
