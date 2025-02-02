@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class BlueMapAreaControl implements Runnable {
+public final class  BlueMapAreaControl implements Runnable {
 
 	private static final String ADDON_ID, VERSION;
 	static {
@@ -39,8 +39,7 @@ public final class BlueMapAreaControl implements Runnable {
 		}
 	}
 
-	private static final Logger LOGGER = Logger.getLogger(ADDON_ID);
-
+	private final Logger logger = Logger.getLogger(ADDON_ID);
 	private UpdateChecker updateChecker;
 
 	private static final String CONF_EXT = ".conf";
@@ -189,7 +188,7 @@ public final class BlueMapAreaControl implements Runnable {
 			getLogger().info("BlueMapAreaControl disabled!");
 
 	public Logger getLogger() {
-		return LOGGER;
+		return logger;
 	}
 
 	public File getDataFolder() {
