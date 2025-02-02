@@ -39,6 +39,8 @@ public final class BlueMapAreaControl implements Runnable {
 		}
 	}
 
+	private static final Logger LOGGER = Logger.getLogger(ADDON_ID);
+
 	private UpdateChecker updateChecker;
 
 	private static final String CONF_EXT = ".conf";
@@ -187,7 +189,7 @@ public final class BlueMapAreaControl implements Runnable {
 			getLogger().info("BlueMapAreaControl disabled!");
 
 	public Logger getLogger() {
-		return Logger.getLogger(ADDON_ID);
+		return LOGGER;
 	}
 
 	public File getDataFolder() {
