@@ -1,0 +1,5 @@
+{
+  "id": "bluemapareacontrol",
+  "entrypoint": "com.technicjelle.bluemapareacontrol.BlueMapAreaControl",
+  "version": "${project.version}"
+}
