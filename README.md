@@ -1,7 +1,6 @@
 # BlueMap Area Control
 
 [![GitHub Total Downloads](https://img.shields.io/github/downloads/TechnicJelle/BlueMapAreaControl/total?label=Downloads&color=success "Click here to download the plugin")](https://github.com/TechnicJelle/BlueMapAreaControl/releases/latest)
-[![Servers using this plugin](https://img.shields.io/bstats/servers/18345?label=Servers)](https://bstats.org/plugin/bukkit/BlueMap%20Area%20Control/18345)
 
 A BlueMap (native) addon for greater control over which areas get rendered
 
