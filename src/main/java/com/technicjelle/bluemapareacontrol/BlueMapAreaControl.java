@@ -57,7 +57,6 @@ public final class BlueMapAreaControl implements Runnable {
 	}
 
 	Consumer<BlueMapAPI> onEnableListener = api -> {
-		api.getRenderManager().stop(); //do not render anything yet, until the areas are loaded
 		getLogger().info("BlueMapAreaControl enabled!");
 		updateChecker.logUpdateMessage(getLogger());
 
@@ -162,7 +161,6 @@ public final class BlueMapAreaControl implements Runnable {
 				return inArea == isWhitelist;
 			});
 		}
-		api.getRenderManager().start(); //the areas have been loaded, we may start rendering now
 	};
 
 	@NotNull Area getArea(ConfigurationNode node) throws Exception {
