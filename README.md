@@ -1,3 +1,6 @@
+# This functionality was added in [BlueMap v5.11](https://github.com/BlueMap-Minecraft/BlueMap/releases/tag/v5.11) so this addon is now redundant
+(It's also better than this addon ever was or could be. This addon cropped _per chunk_, while BlueMap itself now crops _per block_!)
+
 # BlueMap Area Control
 
 [![GitHub Total Downloads](https://img.shields.io/github/downloads/TechnicJelle/BlueMapAreaControl/total?label=Downloads&color=success "Click here to download the plugin")](https://github.com/TechnicJelle/BlueMapAreaControl/releases/latest)
